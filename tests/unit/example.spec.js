@@ -6,45 +6,46 @@ describe('Meetup.vue', () => {
     const expected = 4;
     const wrapper = shallowMount(Meetup);
 
-    const meetings = wrapper.findAll('ul > li').length;
-    expect(meetings).toBe(expected);
+    const activities = wrapper.findAll('ul > li').length;
+    expect(activities).toBe(expected);
   });
 });
 
 it('triggers add meeting method on click', async () => {
-  const Method = jest.spyOn(Meetup.methods, 'bookAMeeting');
+  const Method = jest.spyOn(Meetup.methods, 'rsvpActivity');
   const wrapper = shallowMount(Meetup);
   await wrapper.find('button').trigger('click');
   expect(Method).toBeCalled();
 });
 
-it('should show a meeting in meetings', () => {
+it('should show an activity in activities', () => {
   const wrapper = shallowMount(Meetup, {
     data() {
       return {
-        bookedMeetings: [
+        rsvpedActivities: [
           {
-            date: '03-01-2021',
-            title: 'CarMeetup',
-            review: '',
+            date: "November 28, 2021",
+            title: "Thankgiving",
+            review: "",
+            location: "Violgatan"
           },
         ],
       };
     },
   });
-  const getBookedMeetings = wrapper.findAll('#meeting-test').length;
-  expect(getBookedMeetings).toBe(1);
+  const getRsvpedActivities = wrapper.findAll('#activity-test').length;
+  expect(getRsvpedActivities).toBe(1);
 });
 
-it('triggers reviewAmeeting method on click to make a review', async () => {
-  const newMethod = jest.spyOn(Meetup.methods, 'reviewAMeeting');
+it('clicks button to add review', async () => {
+  const newMethod = jest.spyOn(Meetup.methods, 'addReview');
   const wrapper = shallowMount(Meetup);
   await wrapper.find('button').trigger('click');
   expect(newMethod);
 });
 
-it('should get the meetings when server created', () => {
-  const spy = jest.spyOn(Meetup.methods, 'getMeetings');
+it('should show meetups', () => {
+  const spy = jest.spyOn(Meetup.methods, 'getActivities');
   shallowMount(Meetup);
   expect(spy).toBeCalled();
 });
